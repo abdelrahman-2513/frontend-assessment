@@ -8,10 +8,10 @@ type TaskItemProps = {
 
 export function TaskItem({ task, busy, onToggle }: TaskItemProps) {
   return (
-    <li className="card list-item">
+    <li className={`card list-item${task.completed ? " task-item-done" : ""}`}>
       <div className="task-item-header">
         <p className="zero-margin list-item-title">{task.title}</p>
-        <span className={task.completed ? "badge badge-done" : "badge"}>
+        <span className={task.completed ? "badge badge-done" : "badge badge-pending"}>
           {task.completed ? "Completed" : "Pending"}
         </span>
       </div>
@@ -21,7 +21,7 @@ export function TaskItem({ task, busy, onToggle }: TaskItemProps) {
       <div>
         <button
           type="button"
-          className="button"
+          className={task.completed ? "button" : "button primary"}
           onClick={() => onToggle(task)}
           disabled={busy}
           aria-label={`Mark ${task.title} as ${task.completed ? "pending" : "completed"}`}

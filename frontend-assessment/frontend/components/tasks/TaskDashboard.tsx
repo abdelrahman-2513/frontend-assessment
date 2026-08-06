@@ -4,6 +4,7 @@ import { useTasks } from "@/hooks/useTasks";
 import type { Task } from "@/types/api";
 import { StatusFilter } from "@/components/tasks/StatusFilter";
 import { TaskList } from "@/components/tasks/TaskList";
+import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
 
 export function TaskDashboard() {
   const {
@@ -30,11 +31,7 @@ export function TaskDashboard() {
 
       <StatusFilter value={filter} onChange={setFilter} />
 
-      {loading ? (
-        <section className="card panel">
-          <p className="zero-margin">Loading tasks...</p>
-        </section>
-      ) : null}
+      {loading ? <LoadingSkeleton variant="list" count={4} /> : null}
 
       {error ? (
         <section className="card panel panel-error">

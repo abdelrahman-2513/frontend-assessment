@@ -3,6 +3,7 @@
 import { useActivity } from "@/hooks/useActivity";
 import { ActivityList } from "@/components/activity/ActivityList";
 import { ActivitySearch } from "@/components/activity/ActivitySearch";
+import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
 
 export function ActivityFeed() {
   const { activity, filteredActivity, query, setQuery, loading, error, fetchActivity } =
@@ -16,16 +17,14 @@ export function ActivityFeed() {
       </header>
 
       <section className="card panel">
-        <p className="muted zero-margin meta-line">
-          Total: {activity.length} | Visible: {filteredActivity.length}
+        <p className="meta-pill zero-margin">
+          Total: {loading ? "—" : activity.length}
+          <span aria-hidden="true">·</span>
+          Visible: {loading ? "—" : filteredActivity.length}
         </p>
       </section>
 
-      {loading ? (
-        <section className="card panel">
-          <p className="zero-margin">Loading activity...</p>
-        </section>
-      ) : null}
+      {loading ? <LoadingSkeleton variant="list" count={4} /> : null}
 
       {error ? (
         <section className="card panel panel-error">

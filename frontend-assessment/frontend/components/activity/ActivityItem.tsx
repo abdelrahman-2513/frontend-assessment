@@ -11,7 +11,10 @@ function formatTime(value: string): string {
 export function ActivityItem({ item }: ActivityItemProps) {
   return (
     <li className="card list-item">
-      <div className="list-item-title">{item.action || "(no action)"}</div>
+      <div className="task-item-header">
+        <div className="list-item-title">{item.action || "(no action)"}</div>
+        <span className="badge badge-info">Log</span>
+      </div>
       <div className="list-item-body">{item.info || "(no info)"}</div>
       <time className="muted" dateTime={item.when}>
         {formatTime(item.when)}
