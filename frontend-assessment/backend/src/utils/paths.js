@@ -1,10 +1,17 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
-const DEFAULT_DATA_DIR = path.join(process.cwd(), 'data');
-
 function getDataDir() {
-  return process.env.DATA_DIR || DEFAULT_DATA_DIR;
+  if (process.env.DATA_DIR) {
+    return process.env.DATA_DIR;
+  }
+
+  // Vercel serverless filesystem is read-only except /tmp.
+  if (process.env.VERCEL) {
+    return '/tmp/veeliion-data';
+  }
+
+  return path.join(process.cwd(), 'data');
 }
 
 function getDataFilePath(fileName) {

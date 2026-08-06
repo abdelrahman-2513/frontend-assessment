@@ -3,7 +3,9 @@ const { readJsonArray, writeJsonArray } = require('../../../utils/jsonStore');
 const HttpError = require('../../../utils/httpError');
 const { getDataFilePath } = require('../../../utils/paths');
 
-const TASKS_FILE_PATH = getDataFilePath('tasks.json');
+function tasksFilePath() {
+  return getDataFilePath('tasks.json');
+}
 
 function buildTaskRecord(payload) {
   const now = new Date().toISOString();
@@ -18,11 +20,11 @@ function buildTaskRecord(payload) {
 }
 
 async function getAllTasks() {
-  return readJsonArray(TASKS_FILE_PATH);
+  return readJsonArray(tasksFilePath());
 }
 
 async function getTaskById(taskId) {
-  const tasks = await readJsonArray(TASKS_FILE_PATH);
+  const tasks = await readJsonArray(tasksFilePath());
   const task = tasks.find((item) => item.id === taskId);
 
   if (!task) {
@@ -45,11 +47,11 @@ async function createTask(payload) {
     payload.completed = false;
   }
 
-  const tasks = await readJsonArray(TASKS_FILE_PATH);
+  const tasks = await readJsonArray(tasksFilePath());
   const newTask = buildTaskRecord(payload);
 
   tasks.push(newTask);
-  await writeJsonArray(TASKS_FILE_PATH, tasks);
+  await writeJsonArray(tasksFilePath(), tasks);
 
   return newTask;
 }
@@ -63,7 +65,7 @@ async function updateTask(taskId, updates) {
     throw new HttpError(400, 'completed must be boolean');
   }
 
-  const tasks = await readJsonArray(TASKS_FILE_PATH);
+  const tasks = await readJsonArray(tasksFilePath());
   const taskIndex = tasks.findIndex((item) => item.id === taskId);
 
   if (taskIndex === -1) {
@@ -78,13 +80,13 @@ async function updateTask(taskId, updates) {
   };
 
   tasks[taskIndex] = updatedTask;
-  await writeJsonArray(TASKS_FILE_PATH, tasks);
+  await writeJsonArray(tasksFilePath(), tasks);
 
   return updatedTask;
 }
 
 async function deleteTask(taskId) {
-  const tasks = await readJsonArray(TASKS_FILE_PATH);
+  const tasks = await readJsonArray(tasksFilePath());
   const taskIndex = tasks.findIndex((item) => item.id === taskId);
 
   if (taskIndex === -1) {
@@ -92,7 +94,7 @@ async function deleteTask(taskId) {
   }
 
   const [removedTask] = tasks.splice(taskIndex, 1);
-  await writeJsonArray(TASKS_FILE_PATH, tasks);
+  await writeJsonArray(tasksFilePath(), tasks);
 
   return removedTask;
 }

@@ -14,5 +14,6 @@ It will be available on `http://localhost:4000`
 ### Vercel
 
 - Config: `vercel.json` (Express app via `@vercel/node`)
-- Set `DATA_DIR=/tmp/veeliion-data` so JSON writes work on serverless
+- Data files auto-use `/tmp/veeliion-data` when `VERCEL=1` (or set `DATA_DIR` yourself)
 - Health check: `GET /health`
+- Note: JSON data on serverless is **not durable** across cold starts

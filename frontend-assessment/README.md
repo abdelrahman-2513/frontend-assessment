@@ -192,10 +192,12 @@ Create **two** Vercel projects from the same GitHub repo:
 1. Root Directory: `frontend-assessment/backend` (or `backend` if that is the project root in your clone).
 2. Framework preset: Other.
 3. Env vars:
-   - `DATA_DIR=/tmp/veeliion-data` (JSON file writes need a writable path on serverless).
+   - Optional: `DATA_DIR=/tmp/veeliion-data` (auto-set path is used when `VERCEL` is present if unset).
 4. Deploy and copy the backend URL (e.g. `https://your-backend.vercel.app`).
 
 `backend/vercel.json` routes all requests to the Express app (`src/app.js`).
+
+**Important:** On Vercel the app filesystem is read-only except `/tmp`. Writing JSON under `./data` crashes the serverless function at startup. The backend now defaults to `/tmp/veeliion-data` on Vercel.
 
 ### 2. Frontend
 

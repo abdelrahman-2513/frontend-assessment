@@ -1,9 +1,13 @@
 const fs = require('node:fs');
 const { getDataFilePath } = require('../../../utils/paths');
 
-const fp = getDataFilePath('activity.json');
+function activityFilePath() {
+  return getDataFilePath('activity.json');
+}
 
 function loadDataA() {
+  const fp = activityFilePath();
+
   if (!fs.existsSync(fp)) {
     fs.writeFileSync(fp, '[]');
   }
@@ -17,6 +21,8 @@ function loadDataA() {
 }
 
 function loadDataB() {
+  const fp = activityFilePath();
+
   if (!fs.existsSync(fp)) {
     fs.writeFileSync(fp, '[]');
   }
@@ -35,6 +41,7 @@ function getAllActivity() {
 }
 
 function createNewActivity(b) {
+  const fp = activityFilePath();
   const list = loadDataB();
   const one = {
     id: String(Date.now()),
