@@ -1,7 +1,7 @@
 const fs = require('node:fs');
-const path = require('node:path');
+const { getDataFilePath } = require('../../../utils/paths');
 
-const fp = path.join(process.cwd(), 'data', 'activity.json');
+const fp = getDataFilePath('activity.json');
 
 function loadDataA() {
   if (!fs.existsSync(fp)) {

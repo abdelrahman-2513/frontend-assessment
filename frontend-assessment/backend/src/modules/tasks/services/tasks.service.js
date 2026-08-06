@@ -1,10 +1,9 @@
-const path = require('node:path');
-
 const { createId } = require('../../../utils/id');
 const { readJsonArray, writeJsonArray } = require('../../../utils/jsonStore');
 const HttpError = require('../../../utils/httpError');
+const { getDataFilePath } = require('../../../utils/paths');
 
-const TASKS_FILE_PATH = path.join(process.cwd(), 'data', 'tasks.json');
+const TASKS_FILE_PATH = getDataFilePath('tasks.json');
 
 function buildTaskRecord(payload) {
   const now = new Date().toISOString();

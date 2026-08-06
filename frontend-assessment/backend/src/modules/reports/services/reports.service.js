@@ -1,8 +1,8 @@
-const path = require('node:path');
 const { readJsonArray } = require('../../../utils/jsonStore');
+const { getDataFilePath } = require('../../../utils/paths');
 
-const TASKS_FILE_PATH = path.join(process.cwd(), 'data', 'tasks.json');
-const ACTIVITY_FILE_PATH = path.join(process.cwd(), 'data', 'activity.json');
+const TASKS_FILE_PATH = getDataFilePath('tasks.json');
+const ACTIVITY_FILE_PATH = getDataFilePath('activity.json');
 
 async function getTasksSummary() {
   const [tasks, activities] = await Promise.all([
