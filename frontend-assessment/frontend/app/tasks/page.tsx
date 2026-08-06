@@ -4,9 +4,15 @@ import { TaskDashboard } from "@/components/tasks/TaskDashboard";
 export default function TasksPage() {
   return (
     <main className="stack">
-      <nav>
+      <nav className="page-nav" aria-label="Page">
         <Link href="/" className="button">
-          Back
+          Home
+        </Link>
+        <Link href="/activity" className="button">
+          Activity
+        </Link>
+        <Link href="/reports" className="button">
+          Reports
         </Link>
       </nav>
       <TaskDashboard />

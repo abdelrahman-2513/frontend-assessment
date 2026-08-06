@@ -23,21 +23,22 @@ export function TaskDashboard() {
 
   return (
     <section className="stack">
-      <header className="card" style={{ padding: "1rem" }}>
-        <h1 style={{ marginTop: 0, marginBottom: "0.5rem" }}>Task Dashboard</h1>
+      <header className="card panel">
+        <h1 className="page-title">Task Dashboard</h1>
+        <p className="muted zero-margin">Filter tasks and toggle completion status.</p>
       </header>
 
       <StatusFilter value={filter} onChange={setFilter} />
 
       {loading ? (
-        <section className="card" style={{ padding: "1rem" }}>
-          <p style={{ margin: 0 }}>Loading tasks...</p>
+        <section className="card panel">
+          <p className="zero-margin">Loading tasks...</p>
         </section>
       ) : null}
 
       {error ? (
-        <section className="card" style={{ padding: "1rem", borderColor: "#e3b4c0", background: "#fff8fa" }}>
-          <p style={{ marginTop: 0, marginBottom: "0.75rem", color: "var(--danger)" }}>{error}</p>
+        <section className="card panel panel-error">
+          <p className="error-text">{error}</p>
           <button type="button" className="button" onClick={fetchTasks}>
             Retry
           </button>
