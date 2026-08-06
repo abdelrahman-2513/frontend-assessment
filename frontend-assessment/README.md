@@ -164,3 +164,45 @@ We are evaluating:
 - Route handlers under `app/api/*` proxy requests to backend.
 - Backend endpoint docs are in `docs/backend-endpoints.md`.
 - Backend installation notes are in `/backend/README.md`.
+- Backend URL: set `NEXT_PUBLIC_BACKEND_API_URL` (falls back to `http://localhost:4000` if unset).
+
+---
+
+## Run with Docker
+
+From this folder (next to `backend/` and `frontend/`):
+
+```bash
+docker compose up --build
+```
+
+- Frontend: http://localhost:3000
+- Backend: http://localhost:4000
+
+The frontend container uses `NEXT_PUBLIC_BACKEND_API_URL=http://backend:4000` so Next.js API routes can reach the backend service on the Compose network.
+
+---
+
+## Deploy on Vercel
+
+Create **two** Vercel projects from the same GitHub repo:
+
+### 1. Backend
+
+1. Root Directory: `frontend-assessment/backend` (or `backend` if that is the project root in your clone).
+2. Framework preset: Other.
+3. Env vars:
+   - `DATA_DIR=/tmp/veeliion-data` (JSON file writes need a writable path on serverless).
+4. Deploy and copy the backend URL (e.g. `https://your-backend.vercel.app`).
+
+`backend/vercel.json` routes all requests to the Express app (`src/app.js`).
+
+### 2. Frontend
+
+1. Root Directory: `frontend-assessment/frontend` (or `frontend`).
+2. Framework preset: Next.js.
+3. Env vars:
+   - `NEXT_PUBLIC_BACKEND_API_URL=<your-backend-url>`
+4. Deploy.
+
+Redeploy the frontend after the backend URL is set.

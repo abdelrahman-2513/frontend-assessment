@@ -147,6 +147,39 @@ Review of the starter Task Dashboard and Activity Feed modules. The Task Dashboa
 
 ---
 
+## Docker (extra feature — not required by the assessment brief)
+
+Docker is **not** part of the original VeeLion task list (code review, refactor, Reports UI, UI polish). It was added as a **supporting production feature** so the full stack can run the same way on any machine without manually installing and starting frontend and backend separately.
+
+### What exists
+
+- Root `docker-compose.yml` — runs **backend** (`:4000`) and **frontend** (`:3000`) together
+- `backend/Dockerfile` and `frontend/Dockerfile` — container images for each app
+- Frontend receives `NEXT_PUBLIC_BACKEND_API_URL=http://backend:4000` so Next.js API proxies reach the backend service on the Compose network
+- Backend can use `DATA_DIR` for JSON persistence (volume-backed in Compose)
+
+### Why add it anyway
+
+| Reason | Detail |
+|--------|--------|
+| Reproducible setup | One command (`docker compose up --build`) avoids “works on my machine” Node/version drift |
+| Mirrors production thinking | Treats frontend + backend as deployable services with explicit env wiring |
+| Easier review / demo | Reviewers can start the whole system without reading separate install steps for each folder |
+| Env clarity | Makes the backend URL contract visible (`NEXT_PUBLIC_BACKEND_API_URL` with localhost fallback outside Docker) |
+
+### How to run
+
+```bash
+docker compose up --build
+```
+
+- App: http://localhost:3000  
+- API: http://localhost:4000  
+
+Local `npm run dev` / `npm start` without Docker still works; unset `NEXT_PUBLIC_BACKEND_API_URL` falls back to `http://localhost:4000`.
+
+---
+
 ## Summary
 
-Align Activity with the Task Dashboard: one source of truth, memoized filtering, loading/error/retry, small components, and no timer. Add a Reports page against `GET /reports/tasks-summary` using the same proxy + hook pattern. Polish shared CSS and navigation so all three modules feel like one app.
+Align Activity with the Task Dashboard: one source of truth, memoized filtering, loading/error/retry, small components, and no timer. Add a Reports page against `GET /reports/tasks-summary` using the same proxy + hook pattern. Polish shared CSS and navigation so all three modules feel like one app. Docker Compose is an optional but useful ops feature for running both services together consistently.
