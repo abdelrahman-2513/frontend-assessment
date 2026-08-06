@@ -197,7 +197,7 @@ Create **two** Vercel projects from the same GitHub repo:
 
 `backend/vercel.json` routes all requests to the Express app (`src/app.js`).
 
-**Important:** On Vercel the app filesystem is read-only except `/tmp`. Writing JSON under `./data` crashes the serverless function at startup. The backend now defaults to `/tmp/veeliion-data` on Vercel.
+**Important:** On Vercel the app filesystem is read-only except `/tmp`. The backend stores writable copies under `/tmp/veeliion-data` and **seeds** them from bundled `data/tasks.json` and `data/activity.json` on first request after a cold start.
 
 ### 2. Frontend
 
